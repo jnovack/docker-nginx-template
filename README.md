@@ -14,9 +14,17 @@ Prior to building the containers, you must generate a self-signed certificate to
 make keys
 ```
 
+### make template
+
+To deploy this template, you must pass the domain name of the new application.
+
+```
+make DOMAIN=[www.docker.local] template
+```
+
 ### override production
 
-Rename `docker-compose.override.yml.sample` to `docker-compose.override.yml` and modify to point to your mount directory.
+The create script automatically renamed `docker-compose.override.yml.sample` to `docker-compose.override.yml`. Modify it to your environment.
 
 NOTE: Do not modifying `docker-compose.yml` directly. Doing so will cause conflicts on each update of the repository.  Make all your `docker-compose.yml` changes to your local `docker-compose.override.yml` file.  More information can be found here: https://docs.docker.com/compose/extends/
 
