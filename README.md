@@ -22,6 +22,8 @@ To deploy this template, you must pass the domain name of the new application.
 make DOMAIN=[www.docker.local] template
 ```
 
+WARNING: This will destroy the `.git/` subdirectory.
+
 ### override production
 
 The create script automatically renamed `docker-compose.override.yml.sample` to `docker-compose.override.yml`. Modify it to your environment.
