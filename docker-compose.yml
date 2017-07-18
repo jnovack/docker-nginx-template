@@ -1,0 +1,49 @@
+version: '2.1'
+
+services:
+  nginx:
+    depends_on:
+      - php-fpm
+    build:
+      context: containers/nginx/
+    volumes:
+      - /web/sites/docker-nginx-template:/website:ro
+      - /etc/pki/tls/private/docker-nginx-template.key:/etc/nginx/ssl/key.pem:ro
+      - /etc/pki/tls/certs/docker-nginx-template.crt:/etc/nginx/ssl/certificate.pem:ro
+      - ./config/website.conf:/etc/nginx/sites-enabled/website.conf:ro
+    command: "nginx"
+    ports:
+      - 8032:443
+    links:
+      - php-fpm
+    logging:
+      driver: syslog
+      options:
+        tag: docker/{{.ImageName}}/{{.ID}}
+    restart: always
+
+  php-fpm:
+    depends_on:
+      - storage
+    build:
+      context: containers/php-fpm/
+    command: php-fpm
+    volumes:
+      - /web/sites/docker-nginx-template:/website:ro
+    volumes_from:
+      - storage:rw
+    logging:
+      driver: syslog
+      options:
+        tag: docker/{{.ImageName}}/{{.ID}}
+    restart: always
+
+  storage:
+    build:
+      context: containers/storage/
+    stdin_open: true
+    logging:
+      driver: syslog
+      options:
+        tag: docker/{{.ImageName}}/{{.ID}}
+    restart: always

@@ -1,0 +1,20 @@
+version: '2.1'
+
+services:
+  nginx:
+    volumes:
+      - /Volumes/websites/docker-nginx-template:/website:ro
+      - ./config/key.pem:/etc/nginx/ssl/key.pem:ro
+      - ./config/certificate.pem:/etc/nginx/ssl/certificate.pem:ro
+    logging:
+      driver: json-file
+
+  php-fpm:
+    volumes:
+      - /Volumes/websites/docker-nginx-template:/website:ro
+    logging:
+      driver: json-file
+
+  storage:
+    logging:
+      driver: json-file
