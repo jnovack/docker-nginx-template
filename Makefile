@@ -9,7 +9,7 @@ all: test up logs
 keys:
 	openssl req -x509 -nodes -newkey rsa:4096 -keyout config/key.pem -out config/certificate.pem -days 720 -subj "/C=US/ST=Pennsylvania/L=Bensalem/O=DEVELOPMENT/OU=parx Casino/CN=${DOMAIN}"
 
-customize:
+customize: keys
 	@sed -i '' "s/docker-nginx-template/${DOMAIN}/" README.md
 	@sed -i '' "s/docker-nginx-template/${DOMAIN}/" docker-compose.override.yml.sample
 	@sed -i '' "s/docker-nginx-template/${DOMAIN}/" docker-compose.yml

@@ -32,10 +32,11 @@ RUN docker-php-ext-install pdo_mysql soap
 RUN docker-php-source delete
 
 # Customization
-#   * Remove access logging for php-fpm. All logging is done in nginx container
+#   * Remove access logging for php-fpm
+#   * Add error logging for php-fpm
 #   * Change processes to 'ondemand'
 #   * Set max_children up a lil' higher
-RUN echo "expose_php = off" > /usr/local/etc/php/php.ini && \
-    sed -i '/access.log/d' /usr/local/etc/php-fpm.d/docker.conf && \
+ADD data/php.ini /usr/local/etc/php/php.ini
+RUN sed -i '/access.log/d' /usr/local/etc/php-fpm.d/docker.conf && \
     sed -i 's/pm = dynamic/pm = ondemand/' /usr/local/etc/php-fpm.d/www.conf && \
     sed -i 's/max_children = 5/max_children = 10/' /usr/local/etc/php-fpm.d/www.conf
