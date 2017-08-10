@@ -7,7 +7,7 @@ DOMAIN?=docker.local
 all: test up logs
 
 keys:
-	openssl req -x509 -nodes -newkey rsa:4096 -keyout config/key.pem -out config/certificate.pem -days 720 -subj "/C=US/ST=Pennsylvania/L=Bensalem/O=DEVELOPMENT/OU=parx Casino/CN=${DOMAIN}"
+	openssl req -x509 -sha256 -nodes -newkey rsa:4096 -keyout config/key.pem -out config/certificate.pem -days 7200 -subj "/C=US/ST=Pennsylvania/L=Bensalem/O=IT Operations/OU=parx Casino/CN=${DOMAIN}"
 
 customize: keys
 	@sed -i '' "s/docker-nginx-template/${DOMAIN}/" README.md
