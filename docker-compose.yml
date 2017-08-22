@@ -13,7 +13,7 @@ services:
       - ./config/website.conf:/etc/nginx/sites-enabled/website.conf:ro
     command: "nginx"
     ports:
-      - 8032:443
+      - 8000:443
     links:
       - php-fpm
     logging:
