@@ -1,4 +1,4 @@
-FROM php:7.1-fpm-alpine
+FROM php:5.6-fpm-alpine
 
 # Set up HEALTHCHECK
 RUN apk add --update --no-cache fcgi && \
@@ -20,6 +20,8 @@ HEALTHCHECK --interval=10s --timeout=3s --retries=3 \
 #   * Set max_children up a lil' higher
 ADD data/php.ini /usr/local/etc/php/php.ini
 RUN sed -i '/access.log/d' /usr/local/etc/php-fpm.d/docker.conf && \
-    sed -i 's/pm = dynamic/pm = ondemand/' /usr/local/etc/php-fpm.d/www.conf && \
     sed -i 's/listen = \[::\]:9000/listen=0.0.0.0:9000/' /usr/local/etc/php-fpm.d/zz-docker.conf && \
-    sed -i 's/max_children = 5/max_children = 10/' /usr/local/etc/php-fpm.d/www.conf
+    sed -i 's/pm = dynamic/pm = ondemand/' /usr/local/etc/php-fpm.d/www.conf && \
+    sed -i 's/max_children = 5/max_children = 10/' /usr/local/etc/php-fpm.d/www.conf && \
+    sed -i '/^;catch_workers_output/ccatch_workers_output = yes' /usr/local/etc/php-fpm.d/www.conf && \
+    sed -i '/^;php_admin_flag\[log_errors\]/cphp_admin_flag[log_errors] = on' /usr/local/etc/php-fpm.d/www.conf

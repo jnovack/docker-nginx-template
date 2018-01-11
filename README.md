@@ -24,9 +24,25 @@ make DOMAIN=[www.docker.local] template
 
 WARNING: This will destroy the `.git/` subdirectory.
 
+#### SSL Client Certificates
+
+If you need SSL Client Certificate verification, you will need a CA certificate and CRL file within `config/`.
+
+```
+make DOMAIN=[www.docker.local] opt-ssl
+```
+
+#### Laravel
+
+A Laravel instance requires a storage container and some php modules installed, we can easily set that up.
+
+```
+make DOMAIN=[www.docker.local] opt-laravel
+```
+
 ### override production
 
-The create script automatically renamed `docker-compose.override.yml.sample` to `docker-compose.override.yml`. Modify it to your environment.
+The `make template` script automatically renamed `docker-compose.override.yml.sample` to `docker-compose.override.yml`. Modify it to your environment.
 
 NOTE: Do not modifying `docker-compose.yml` directly. Doing so will cause conflicts on each update of the repository.  Make all your `docker-compose.yml` changes to your local `docker-compose.override.yml` file.  More information can be found here: https://docs.docker.com/compose/extends/
 

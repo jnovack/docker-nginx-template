@@ -6,6 +6,11 @@ services:
       - /Volumes/websites/docker-nginx-template:/website:ro
       - ./config/key.pem:/etc/nginx/ssl/key.pem:ro
       - ./config/certificate.pem:/etc/nginx/ssl/certificate.pem:ro
+#ssl      - ./config/ca.crt:/etc/nginx/ssl/ca.crt:ro
+#ssl      - ./config/ca.crl:/etc/nginx/ssl/ca.crl:ro
+    ports:
+      - 12345:443
+      - 55555:55555
     logging:
       driver: json-file
 
@@ -15,6 +20,6 @@ services:
     logging:
       driver: json-file
 
-  storage:
-    logging:
-      driver: json-file
+#storage  storage:
+#storage    logging:
+#storage      driver: json-file

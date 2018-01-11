@@ -10,6 +10,8 @@ services:
       - /web/sites/docker-nginx-template:/website:ro
       - /etc/pki/tls/private/docker-nginx-template.key:/etc/nginx/ssl/key.pem:ro
       - /etc/pki/tls/certs/docker-nginx-template.crt:/etc/nginx/ssl/certificate.pem:ro
+#ssl      - /etc/pki/tls/certs/ca-docker-nginx-template.crl:/etc/nginx/ssl/ca.crl:ro
+#ssl      - /etc/pki/tls/certs/ca-docker-nginx-template.crt:/etc/nginx/ssl/ca.crt:ro
       - ./config/website.conf:/etc/nginx/sites-enabled/website.conf:ro
     command: "nginx"
     ports:
@@ -23,27 +25,27 @@ services:
     restart: always
 
   php-fpm:
-    depends_on:
-      - storage
+#storage    depends_on:
+#storage      - storage
     build:
       context: containers/php-fpm/
     command: php-fpm
     volumes:
       - /web/sites/docker-nginx-template:/website:ro
-    volumes_from:
-      - storage:rw
+#storage    volumes_from:
+#storage      - storage:rw
     logging:
       driver: syslog
       options:
         tag: docker/{{.ImageName}}/{{.ID}}
     restart: always
 
-  storage:
-    build:
-      context: containers/storage/
-    stdin_open: true
-    logging:
-      driver: syslog
-      options:
-        tag: docker/{{.ImageName}}/{{.ID}}
-    restart: always
+#storage  storage:
+#storage    build:
+#storage      context: containers/storage/
+#storage    stdin_open: true
+#storage    logging:
+#storage      driver: syslog
+#storage      options:
+#storage        tag: docker/{{.ImageName}}/{{.ID}}
+#storage    restart: always

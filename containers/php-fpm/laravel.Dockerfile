@@ -12,6 +12,25 @@ HEALTHCHECK --interval=10s --timeout=3s --retries=3 \
     REQUEST_METHOD=GET \
     cgi-fcgi -bind -connect 127.0.0.1:9000 || exit 1
 
+# main()
+RUN apk add --update --no-cache \
+        build-base \
+        autoconf \
+        libtool \
+        libxml2-dev
+
+RUN docker-php-ext-configure pdo_mysql
+
+RUN pecl config-set php_ini /usr/local/etc/php/php.ini && \
+    pecl install igbinary && \
+    pecl clear-cache
+
+RUN docker-php-ext-enable igbinary
+
+RUN docker-php-ext-install pdo_mysql soap
+
+RUN docker-php-source delete
+
 # Customization
 #   * Remove access logging for php-fpm
 #   * Add error logging for php-fpm
